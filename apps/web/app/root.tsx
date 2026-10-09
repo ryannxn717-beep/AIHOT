@@ -8,7 +8,7 @@ import { RingMark } from "@aihot/site/brand/Logo.tsx";
 import { useEffect, useState, type ReactNode } from "react";
 import type { Route } from "./+types/root";
 import "./app.css";
-import { Sidebar } from "./components/shell/Sidebar";
+import { Masthead } from "./components/shell/Masthead";
 import { TabBar } from "./components/shell/TabBar";
 import { PullToRefresh } from "./components/shell/PullToRefresh";
 import { usePageTransition } from "./components/shell/transitions";
@@ -78,27 +78,32 @@ export function meta({ error }: Route.MetaArgs) {
   return [{ title: titled(notFound ? "页面不存在" : "暂时无法加载") }, { name: "robots", content: "noindex" }];
 }
 
-/** Sidebar, main column and phone tab bar around a page (or an error). */
+/** Horizontal masthead, reading column and phone tab bar around a page (or an error). */
 function SiteShell({ changelogVersion, children }: { changelogVersion: string | null; children: ReactNode }) {
   const navigation = useNavigation();
   // The phone search and pull-to-refresh are client-side, mounted once the page is interactive.
   const [interactive, setInteractive] = useState(false);
   useEffect(() => setInteractive(true), []);
   return (
-    <div className="flex min-h-dvh">
+    <div className="brief-shell flex min-h-dvh flex-col">
       <NavigationProgress active={navigation.state === "loading"} />
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[70] focus:rounded-control focus:bg-surface focus:px-3 focus:py-2">
         跳到正文
       </a>
-      <Sidebar changelogVersion={changelogVersion} />
-      {/* Phone shell (≤ 960px): each page's top bar (PhoneBar), one centred column, the tab bar below.
-          Desktop: the page fills the main area up to the list width (--page-max-wide), centred beyond it. */}
+      <Masthead changelogVersion={changelogVersion} />
+      {/* Phone pages retain their own bar and bottom navigation. Desktop reads below the masthead. */}
       <main id="main" className="min-w-0 flex-1 pb-[calc(72px+env(safe-area-inset-bottom))] lg:px-7 lg:pb-[72px] lg:pt-6">
         <div className="mx-auto w-full max-w-[640px] pl-[var(--gutter-l)] pr-[var(--gutter-r)] lg:max-w-[var(--page-max-wide)] lg:px-0">
           {webModules().map((m) => m.root?.Top && <m.root.Top key={m.name} />)}
           {children}
         </div>
       </main>
+      <footer className="brief-footer hidden lg:flex">
+        <span>{SITE.name} · {SITE.tagline}</span>
+        <div className="flex gap-5"><Link to="/agent">RSS / API</Link><Link to="/terms">使用规则</Link><Link to="/privacy">隐私说明</Link>
+          {SITE.icp && <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">{SITE.icp}</a>}
+        </div>
+      </footer>
       <TabBar changelogVersion={changelogVersion} />
       {interactive && <SearchOverlay />}
       {interactive && <PullToRefresh />}

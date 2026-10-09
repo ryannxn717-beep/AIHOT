@@ -5,6 +5,79 @@
 @source "../../../site/changelog";
 @source "../../../modules/*/{web.tsx,web/**}";
 
+/* This site's reading layout; the engine's component and appearance tokens remain shared. */
+.brief-shell { --page-max-wide: 1120px; --page-max-reading: 1040px; }
+.brief-masthead { border-bottom: 1px solid var(--line); background: var(--bg); }
+.brief-masthead-inner, .brief-nav-inner, .brief-footer { width: min(1120px, calc(100% - 56px)); margin-inline: auto; }
+.brief-masthead-inner { display: flex; align-items: center; justify-content: space-between; padding: 26px 0 22px; }
+.brief-brand { display: flex; align-items: center; gap: 22px; }
+.brief-brand > span:last-child { border-left: 1px solid var(--line-strong); padding-left: 22px; color: var(--ink-3); font-size: 13px; }
+.brief-source-link { display: flex; align-items: center; gap: 6px; color: var(--ink-3); font-size: 13px; }
+.brief-nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.brief-nav-link { display: flex; position: relative; align-items: center; gap: 6px; padding: 14px 0; white-space: nowrap; color: var(--ink-3); font-size: 13px; }
+.brief-nav-link:hover, .brief-nav-active { color: var(--ink); }
+.brief-nav-active::after { content: ''; position: absolute; height: 2px; background: var(--accent); bottom: -1px; inset-inline: 0; }
+.brief-more { position: relative; color: var(--ink-3); font-size: 13px; }
+.brief-more summary { cursor: pointer; padding: 12px 0; }
+.brief-more-menu { position: absolute; top: 100%; right: 0; z-index: 50; width: 160px; padding: 6px 20px; border: 1px solid var(--line); background: var(--surface); box-shadow: 0 8px 24px #00000010; }
+.brief-footer { border-top: 1px solid var(--line); padding: 22px 0 30px; justify-content: space-between; gap: 20px; color: var(--ink-3); font-size: 12px; }
+.brief-intro { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; padding: 12px 0 32px; }
+.brief-kicker { font-size: 12px; color: var(--accent); margin-bottom: 10px; }
+.brief-intro h1 { font-size: 32px; font-weight: 700; line-height: 1.3; letter-spacing: -0.035em; color: var(--ink); }
+.brief-intro-note { color: var(--ink-3); font-size: 14px; margin-top: 10px; line-height: 1.7; }
+.brief-report-link { font-size: 13px; font-weight: 600; color: var(--ink); white-space: nowrap; padding-bottom: 3px; }
+.brief-report-link span { margin-left: 12px; color: var(--accent); }
+.brief-columns { display: grid; grid-template-columns: minmax(0, 1fr) 264px; gap: 42px; align-items: start; }
+.brief-lead { padding: 25px 28px 26px; border-top: 3px solid var(--accent); background: var(--bg-muted); }
+.brief-lead-meta { display: flex; gap: 15px; justify-content: space-between; align-items: baseline; color: var(--ink-3); font-size: 11px; line-height: 1.6; }
+.brief-lead-meta > span:first-child { color: var(--accent); font-weight: 600; white-space: nowrap; }
+.brief-lead h2 { font-size: 25px; line-height: 1.55; font-weight: 700; color: var(--ink); margin: 16px 0 10px; overflow-wrap: anywhere; }
+.brief-lead h2 a:hover { color: var(--accent); }
+.brief-lead h2 span { color: var(--accent); font-size: 18px; }
+.brief-lead > p { font-size: 15px; line-height: 1.85; color: var(--ink-2); }
+.brief-lead-reason { margin-top: 17px; padding-top: 14px; border-top: 1px solid var(--line-strong); color: var(--ink-3); font-size: 12px; line-height: 1.75; }
+.brief-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 32px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); }
+.brief-section-heading h2 { font-size: 19px; font-weight: 650; color: var(--ink); }
+.brief-section-heading a { font-size: 12px; color: var(--ink-3); }
+.brief-filter-row { margin: 15px 0 6px; }
+.brief-search { padding-bottom: 26px; border-bottom: 1px solid var(--line-strong); }
+.brief-search h2, .brief-directions h2 { font-size: 14px; font-weight: 650; color: var(--ink); margin: 0 0 14px; }
+.brief-search form { width: 100%; }
+.brief-search > p { font-size: 11px; color: var(--ink-4); margin-top: 9px; }
+.brief-directions { padding-top: 26px; }
+.brief-directions > a { display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 12px 0; font-size: 13px; color: var(--ink-2); }
+.brief-directions > a:hover { color: var(--accent); }
+.brief-directions > a > span { color: var(--ink-4); }
+.brief-reading-note { margin-top: 30px; border-left: 2px solid var(--accent); padding-left: 15px; }
+.brief-reading-note > p { font-weight: 600; font-size: 13px; color: var(--ink); }
+.brief-reading-note > span { display: block; margin-top: 8px; font-size: 12px; line-height: 1.85; color: var(--ink-3); }
+.brief-reading-note > a { display: inline-block; margin-top: 12px; font-size: 12px; color: var(--accent); }
+.brief-empty { padding: 26px; border-top: 3px solid var(--accent); background: var(--bg-muted); }
+.brief-empty h2 { font-size: 22px; font-weight: 650; color: var(--ink); }
+.brief-empty p { margin: 12px 0; font-size: 14px; line-height: 1.8; color: var(--ink-3); }
+.brief-empty a { font-size: 13px; color: var(--accent); }
+.brief-reading-aside section[aria-labelledby="hot-topics"] { margin-top: 26px; }
+.brief-home a:focus-visible, .brief-masthead a:focus-visible, .brief-more summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+@media (min-width: 961px) {
+  .brief-shell { --accent: #a43e25; --accent-ink: #8c321d; --accent-soft: #f4e5db; --accent-softer: #fbf3ee; --bg-muted: #f3eee7; }
+  [data-theme="dark"] .brief-shell { --accent: #f19b79; --accent-ink: #f6b497; --accent-soft: #332a24; --accent-softer: #262321; --bg-muted: #232826; }
+  .brief-feed article { border: none; border-bottom: 1px solid var(--line); border-radius: 0; box-shadow: none; background: transparent; padding-inline: 0; }
+  .brief-feed article:hover { box-shadow: none; transform: none; }
+}
+@media (max-width: 960px) {
+  .brief-intro { padding: 24px 0; align-items: flex-start; }
+  .brief-intro h1 { font-size: 25px; }
+  .brief-intro-note { font-size: 13px; }
+  .brief-report-link { display: none; }
+  .brief-columns { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .brief-lead { padding: 20px; }
+  .brief-lead h2 { font-size: 21px; }
+  .brief-lead > p { font-size: 14px; }
+  .brief-lead-meta { flex-wrap: wrap; gap: 5px 14px; }
+  .brief-reading-aside { padding-bottom: 24px; }
+  .brief-search form { display: block; }
+}
+
 /* ---------------------------------------------------------------------------
    Design tokens: warm off-white paper, ink text, one teal accent (cyan in
    dark), hairline borders, no gradients.

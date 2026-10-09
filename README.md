@@ -1,3 +1,17 @@
+# AI 简报 · aihot.lol
+
+本仓库基于 [KKKKhazix/AIHOT](https://github.com/KKKKhazix/AIHOT) 的 MIT 开源引擎开发独立 AI 阅读站。首版采用顶部导航、重点阅读和侧栏；已有首页、搜索、分类、文章详情、主题与收藏。域名 aihot.lol 已由用户购买，当前交付为本地 MVP。
+
+- [底层技术流程](docs/codex/mvp/TECHNICAL_FLOW.md)
+- [MVP 范围与验收](docs/codex/mvp/SPEC.md)
+- [运行与交接](docs/codex/mvp/HANDOFF.md)
+
+本地阅读样本为 5 条人工核验的公开资料，保留原文和真实发布日期，无模型评分。自动采集、模型和推送在开发环境关闭。近 30 天有效内容超过参考站是后续内容阶段目标，当前未声称达成。
+
+上游版权、MIT 和字体 NOTICE 保留。下方是上游框架文档；本项目采用独立站名，不使用 AIHOT 的原站 Logo。
+
+---
+
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/assets/banner-dark.png">

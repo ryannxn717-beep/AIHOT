@@ -1,0 +1,75 @@
+{
+  "note": "人工核验的本地 MVP 阅读样本。摘要独立撰写，时间来自原始 RSS；没有模型评分，不代表已经运行自动采集。",
+  "articles": [
+    {
+      "sourceId": "rss-hugging-face",
+      "url": "https://huggingface.co/blog/LiquidAI/open-d1",
+      "originalTitle": "Multimodal open d1 decision models for the edge",
+      "title": "Liquid AI 开放端侧多模态决策模型 d1",
+      "summary": "Liquid AI 发布 d1-3B 和实验性的 d1-omni-600M 开放权重模型。它们通过单次前向计算给出结构化决策：前者接收文本和图像，后者支持文本与图像或音频。官方提供了评测结果、设备延迟与运行示例。",
+      "publishedAt": "2026-10-07T16:54:33Z",
+      "category": "ai-models",
+      "tags": [
+        "开源生态",
+        "端侧",
+        "多模态"
+      ]
+    },
+    {
+      "sourceId": "rss-github-ai",
+      "url": "https://github.blog/ai-and-ml/github-copilot/secret-protection-must-scale-with-software/",
+      "originalTitle": "Secret protection must scale with software",
+      "title": "GitHub：AI 加速代码生产，密钥保护也需要跟上",
+      "summary": "GitHub 分析代码提交与凭据泄露的变化，指出软件生产加速使人工处理泄露的压力增大。文章介绍其与 Microsoft Applied Sciences 合作开发的分类器，用于扩展对非结构化秘密的推送保护，并说明相关数据的统计范围。",
+      "publishedAt": "2026-10-07T17:45:34Z",
+      "category": "industry",
+      "tags": [
+        "编码",
+        "GitHub",
+        "安全/对齐"
+      ]
+    },
+    {
+      "sourceId": "rss-github-ai",
+      "url": "https://github.blog/ai-and-ml/github-copilot/reviewbench-an-open-benchmark-for-ai-code-review/",
+      "originalTitle": "ReviewBench: An open benchmark for AI code review",
+      "title": "GitHub 发布 ReviewBench，评测 AI 代码审查能力",
+      "summary": "ReviewBench 面向代码审查智能体，采用真实 GitHub pull request 构建评测任务，结合多来源标准答案和统一评估规则。开发者可以检查系统发现了哪些问题、遗漏了哪些问题，以及准确率和召回率之间的取舍。",
+      "publishedAt": "2026-10-05T15:59:40Z",
+      "category": "ai-products",
+      "tags": [
+        "编码",
+        "评测/基准",
+        "代码审查"
+      ]
+    },
+    {
+      "sourceId": "rss-github-ai",
+      "url": "https://github.blog/ai-and-ml/ai-is-rewriting-the-developer-career-ladder-heres-how-to-stand-out/",
+      "originalTitle": "AI is changing developer work. Here are three skills to strengthen.",
+      "title": "AI 改变开发工作后，哪些能力更值得练习？",
+      "summary": "GitHub 的开发实践文章建议加强三个方向：指导 AI 智能体完成任务、批判性审查生成结果，以及在工作流程中保留技术判断。内容关注开发者如何与 AI 协作，而非把生成代码等同于完成工程工作。",
+      "publishedAt": "2026-10-02T15:00:00Z",
+      "category": "tip",
+      "tags": [
+        "编码",
+        "教程/实践",
+        "Agent"
+      ]
+    },
+    {
+      "sourceId": "rss-google-deepmind",
+      "url": "https://deepmind.google/blog/introducing-synthid-bio/",
+      "originalTitle": "Introducing SynthID Bio",
+      "title": "DeepMind 探索为 AI 生成的蛋白质添加水印",
+      "summary": "SynthID Bio 研究如何为 AI 生成的蛋白质添加可识别的水印，同时保留其生物学功能。DeepMind 将这一工作描述为概念验证，用于探索合成生物学中生成内容的来源追踪。",
+      "publishedAt": "2026-09-30T15:03:07Z",
+      "category": "paper",
+      "tags": [
+        "论文/研究",
+        "水印",
+        "生物学"
+      ]
+    }
+  ]
+}
