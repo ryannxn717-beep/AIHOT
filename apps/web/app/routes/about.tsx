@@ -2,7 +2,7 @@ import { Fragment, useCallback, useMemo, useRef, useState, type ReactNode } from
 import { IntentLink } from "../components/ui/IntentLink";
 import { Link, useLoaderData } from "react-router";
 import type { SiteContact, SiteStats } from "@aihot/contracts/site";
-import { ABOUT, POLICY, REPORTS, SITE, subjectAfter } from "@aihot/site";
+import { ABOUT, POLICY, REPORTS, SITE } from "@aihot/site";
 import { apiGet, cachedPage } from "../lib/api.server";
 import { pageReuse } from "../lib/page-reuse";
 import { organizationLd, pageMeta } from "../lib/seo";
@@ -190,6 +190,27 @@ function Latest({ item, className = "" }: { item: SiteStats["latest"][number] | 
   );
 }
 
+/** SiteStats deliberately exposes a sample of configured sources, not their private configuration. */
+function SourceSamples({ stats }: { stats: SiteStats | null }) {
+  const [query, setQuery] = useState("");
+  const term = query.trim().toLocaleLowerCase(SITE.locale);
+  const sources = stats?.sampleSources.filter(source => source.name.toLocaleLowerCase(SITE.locale).includes(term)) ?? [];
+  const labels: Record<string, string> = { rss: "RSS 订阅", web_list: "网页", json_list: "公开接口", x_search: "X 账号", mp_account: "公众号", external: "外部收录" };
+  return <section aria-label="公开来源样本" className="mt-10 border-y border-line py-7">
+    <div className="grid gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10">
+      <div><h2 className="text-[20px] font-semibold text-ink">来源有迹可循</h2><p className="mt-3 text-[13px] leading-[1.85] text-ink-3">以下是已配置的公开来源样本。每条资讯都保留原始链接，来源名单和内容收录会随运行情况更新。</p><Link to="/feedback" className="mt-4 inline-block text-[13px] text-accent">更正或调整来源 →</Link></div>
+      <div>
+        <label className="flex items-center gap-3 border-b border-line pb-3 focus-within:border-accent"><span className="shrink-0 text-[12px] text-ink-3">查找来源</span><input aria-label="查找来源" type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="公司、机构或媒体名称" className="min-w-0 flex-1 bg-transparent text-[14px] text-ink outline-none placeholder:text-ink-4" /></label>
+        {stats ? <>
+          <p aria-live="polite" className="mt-3 text-[11px] text-ink-4">来源样本 · {sources.length} / {stats.sampleSources.length} · 已配置信源 {stats.sources} 个</p>
+          <ul className="mt-2 grid sm:grid-cols-2 sm:gap-x-7">{sources.map((source, index) => <li key={`${source.name}-${source.kind}-${index}`} className="flex min-w-0 items-start justify-between gap-4 border-b border-line-soft py-3"><span className="min-w-0 text-[13px] leading-relaxed text-ink">{source.name}</span><span className="shrink-0 text-right text-[11px] leading-relaxed text-ink-4">{labels[source.kind] ?? "公开来源"}{source.heatOnly && <><br />仅作热点证据</>}</span></li>)}</ul>
+          {!sources.length && <p role="status" className="py-5 text-[13px] text-ink-3">{term ? "没有匹配的来源，试试其他名称。" : "暂无可展示的来源样本。"}</p>}
+        </> : <p role="status" className="py-5 text-[13px] text-ink-3">暂时无法读取来源信息，请稍后刷新。</p>}
+      </div>
+    </div>
+  </section>;
+}
+
 export default function AboutPage() {
   const { contact, stats } = useLoaderData<typeof loader>();
   const [focus, setFocus] = useState<number | null>(null);
@@ -218,23 +239,25 @@ export default function AboutPage() {
             <span className="text-accent">{ABOUT.headline[1]}</span>
           </h1>
           <p className="mt-5 max-w-[36em] text-[15.5px] leading-[1.85] text-ink-3 xl:text-[17px]">
-            {ABOUT.lead.split("{sources}").map((part, i) => (
+            {stats ? ABOUT.lead.split("{sources}").map((part, i) => (
               <Fragment key={i}>
-                {i > 0 && (stats ? <>{" "}<span className="num font-semibold text-ink">{stats.sources}</span>{" "}</> : ABOUT.sourcesFallback)}
+                {i > 0 && <>{" "}<span className="num font-semibold text-ink">{stats.sources}</span>{" "}</>}
                 {part}
               </Fragment>
-            ))}
+            )) : SITE.description}
           </p>
         </div>
         <div className="flex flex-wrap gap-3 lg:pb-2">
           <IntentLink to="/" className={buttonClass("primary", "lg")}>
-            看今天的精选 <IconArrowRight size={15} />
+            阅读最新精选 <IconArrowRight size={15} />
           </IntentLink>
           <IntentLink to="/daily" className={buttonClass("secondary", "lg")}>
             读最新日报
           </IntentLink>
         </div>
       </header>
+
+      <SourceSamples stats={stats} />
 
       <section aria-labelledby="how" className="mt-10 xl:mt-14">
         <h2 id="how" className="sr-only">
@@ -243,7 +266,7 @@ export default function AboutPage() {
         <SignalRiver sources={sources} focus={focus} onArrive={onArrive} className="h-[230px] sm:h-[300px] lg:h-[360px] 2xl:h-[420px]">
           <Latest item={latest[at]} className="absolute left-[75%] top-[calc(42%+42px)] hidden w-[25%] px-6 lg:block" />
         </SignalRiver>
-        <p className="sr-only">{`示意图：每条线是一个信源；线汇成一束束，代表同一件事的多篇报道；经过精选的闸门，只有少数几束通过，${subjectAfter("汇入每天的", "日报")}。`}</p>
+        <p className="sr-only">示意图：每条线代表一个已配置的信源，同一件事的报道可以归并，经整理后用于精选阅读和报告归档。</p>
         <Latest item={latest[at]} className="mt-2 border-t border-line pt-4 lg:hidden" />
         <ol className="mt-4 grid grid-cols-1 border-t border-line-strong sm:grid-cols-2 lg:mt-0 lg:grid-cols-4">
           {stages.map((s, i) => (

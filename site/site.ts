@@ -35,7 +35,7 @@ export const SITE = {
   /** 反馈表单邮箱框里的提示。 */
   feedbackEmailHint: "留下邮箱，我们可以回信联系你",
   /** 一句话介绍：搜索引擎、分享卡片、RSS、llms.txt 会用。 */
-  description: `从一批 AI 信源里挑出值得看的动态，把同一件事的多篇报道归到一起，${EDITION_WHEN.daily} 出一份日报。`,
+  description: "聚合公开 AI 资讯，按主题整理模型、产品和研究进展，提供中文摘要、原文链接及日报归档。",
   /** llms.txt 里一句话介绍下面的一段详细介绍（选填）。 */
   llmsIntro: null as string | null,
   /** 一行小字：分享图、海报下方。 */
@@ -134,16 +134,15 @@ export const ABOUT = {
   /** 页面描述（搜索结果、分享卡片）。 */
   description: `关于 ${SITE.name}：${SITE.description}`,
   /** 大标题：第一行正常颜色，第二行强调色。 */
-  headline: ["AI 圈每天都有新动静，", "值得看的，只有几条。"] as [string, string],
-  /** 标题下面的一段话。{sources} 会换成实时的信源数（两边自动加空格，所以 {sources} 两边不写空格）；统计没取到时换成 sourcesFallback。 */
-  lead: `${SITE.name} 替你盯着{sources}个信源：抓取、归并、打分、精选，${EDITION_WHEN.daily} 出一份日报。免费，不用注册。`,
-  sourcesFallback: "十几",
+  headline: ["从来源到进展，", "把 AI 信息读清楚。"] as [string, string],
+  /** 标题下面的一段话。{sources} 只在统计可用时换成实时的信源数；缺失时页面使用不带数量的说明。 */
+  lead: `${SITE.name} 已配置{sources}个公开信源，按主题整理资讯，提供中文摘要、原文链接和进展归档。免费阅读，无需注册。`,
   /** 信源河动画下面的四个环节。 */
   steps: {
-    collect: "官方博客、媒体和个人的订阅源都在看；更新越勤的源看得越勤，最快 15 分钟看一次。",
-    store: "抓到的都存下来，同一件事的报道归到一起，热点榜就是从这里算出来的。",
-    select: `模型先看是不是这个行业的事、有没有实际信息，再写中文标题、摘要和${ITEM_COPY.reasonLabel}；营销稿和重复转发进不来。`,
-    publish: `${EDITION_WHEN.daily} 出日报，${EDITION_WHEN.weekly} 出周报，${EDITION_WHEN.monthly} 出月报。`,
+    collect: "按已配置的信源读取公开资料。启用自动采集后，按来源的更新频率检查新内容。",
+    store: "收录资料保留原始链接和发布时间；同一事件的不同报道可以归并阅读。",
+    select: `依据领域相关性、信息价值和重复情况整理内容，提供中文标题、摘要和${ITEM_COPY.reasonLabel}，重要信息可回到原文核对。`,
+    publish: "根据已确认的内容整理日报、周报和月报，报告页保留每期的原始记录。",
   },
   /**
    * 作者块（选填），null 就不显示。
