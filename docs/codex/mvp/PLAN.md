@@ -38,7 +38,7 @@
 - [x] npm run build -w @aihot/web && node --test apps/web/tests/*.test.ts。
 - [x] node scripts/smoke.ts --base http://localhost:3000。
 - [x] 检查 diff、git check-ignore .env .data/，记录实际证据与局限。
-- [ ] 更新 HANDOFF.md 与技术流程说明；验证后提交并推送到用户指定 GitHub。
+- [x] 更新 HANDOFF.md 与技术流程说明；验证后提交并推送到用户指定 GitHub。
 
 ## 完成记录
 
@@ -46,7 +46,7 @@ P0/P1本地工作已完成：上游基线731/731；新增SSR先红后绿，最�
 
 执行方式：当前会话顺序实现，独立review子代理只读审查。文件重命名后引用全部更新，重点链接复用IntentLink与rememberPreview。原有浏览器测试的H1定位调整为新首页标题，业务断言保留。
 
-所有本地实现/验证复选项由本完成记录确认；GitHub推送是当前最终交付步骤，待命令成功后以远程SHA核实。未启用自动采集/真实模型或生产部署。
+所有本地实现/验证复选项由本完成记录确认。代码提交9b4a7ab已推送至用户仓库main，git ls-remote核实远程SHA与代码提交一致。未启用自动采集/真实模型或生产部署。
 
 ## 人类决定保留
 

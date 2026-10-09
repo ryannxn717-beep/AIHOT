@@ -6,6 +6,8 @@
 
 上游 commit：8ef28ebcd167b311ffab8c0308181e2912262ae2；开发分支 feat/ai-brief-mvp。前端使用顶部导航、重点阅读和独立侧栏；手机保留真实搜索/筛选入口和底部导航。其他页面沿用上游可运行实现。
 
+代码提交9b4a7ab已上传至 https://github.com/ryannxn717-beep/AIHOT 的main；远程SHA核实一致。origin指向用户仓库，upstream保留原开源仓库。
+
 ## 本机进程
 
 - Node：应用自带 `/Users/mario/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node`，版本24.19.0。
