@@ -13,6 +13,7 @@
 - 独立复审及第3轮收尾审查均APPROVE；发现并修复encodedadmin路径和分享图片缺失。五文章OG/海报10张和37主题图均真实PNG200；MCP latest/search/hot/daily查询正常，空日报为not_found。
 - Cloudflare签名远程预览：37项完整公开smoke、12路普通读取、两路搜索、60模型、文字反馈及拒绝附件/encodedadmin检查全部通过（.data/remote-cloudflare-check.log）；真正云端私有API+Hyperdrive健康、timeline、搜索、模型榜200，管理404；网页首页/all/topics/leaderboard/daily/privacy200。首个远程首页约3.8秒，其余数据页面约0.8–1.9秒，非高负载验收。
 - 构建包gzip：API约1309KiB，Web约450KiB；低于免费3MiB限制。前端128个静态资源扫描真实秘密字符串，0命中。没有启用收费计划或自动化。
+- 开源代码已推送用户仓库 main，代码提交71b2a8cbb7f5a1cff53c7ae028871a4a7378b730；本地HEAD与远端main一致。GitHub Actions运行38051213297的check与docker两个任务均success：https://github.com/ryannxn717-beep/AIHOT/actions/runs/38051213297 。包含后端/Web检查及原Docker构建、启动和smoke。
 
 ## 待公开发布
 
@@ -30,4 +31,4 @@ Node24运行时在/Users/mario/.cache/codex-runtimes/codex-primary-runtime/depen
 
 构建重建会移除旧输出，先停Wrangler dev再重启；不要把文件监视重启失败当云端代码失败。本机remote API代理8789、remote Web代理8790由Wrangler签名预览，仅供验证，依赖会话生命周期。不要启用计划或后台常驻任务。
 
-实际云端签名预览截图在.data/screenshots/phase05-cloudflare-private-home.png；本地Workers截图为phase05-workers-neon-home.png与mobile.png，Chrome tab1044399858已切换localhost8790云端签名代理并markHandoff；viewport已reset。canonical为https://aihot.lol/。Cloudflare域名tab1044399861目前DNS记录页（只读，未修改），仅1条既有TXT，无A/AAAA/CNAME，未覆盖任何记录。Neontab1044399699连接密码已隐藏，所有秘密仅私密存储。新资源与原项目互相独立，不删除资源或worktree。
+实际云端签名预览截图在.data/screenshots/phase05-cloudflare-private-home.png；本地Workers截图为phase05-workers-neon-home.png与mobile.png，Chrome tab1044399858已切换localhost8790云端签名代理并markHandoff；viewport已reset。canonical为https://aihot.lol/。Cloudflare域名tab1044399861已在只读核对后关闭，核对时仅1条既有TXT，无A/AAAA/CNAME，未覆盖任何记录。Neontab1044399699连接密码已隐藏，所有秘密仅私密存储。新资源与原项目互相独立，不删除资源或worktree。

@@ -21,7 +21,7 @@
 - [x] P0.5 新 Neon 初始化：私密读取连接配置；只允许明确项目主机且检查库无应用表；迁移后导入核验样本，禁止覆盖既有内容。SSL/事务/搜索验证。
 - [x] P0.6 独立审查：检查公开范围、凭据、并发连接、免费限制和 diff；完成类型/构建/相关后端与 Web 测试。
 - [ ] P0.7 免费资源部署：创建本站 Hyperdrive 和 Workers，先签名私有云端预览 smoke，再绑定 aihot.lol；不更改无关 DNS/资源，不开通收费。验证 HTTPS、页面、反馈与导航，记录部署版本。
-- [ ] P0.8 开源交付：更新部署说明、HANDOFF、状态证据；push 用户 main 并核验 SHA。
+- [x] P0.8 开源交付：更新部署说明、HANDOFF、状态证据；push 用户 main 并核验 SHA。代码提交71b2a8c；GitHub Actions运行38051213297的check与docker均success。
 
 ## 失败模式与验证边界
 
