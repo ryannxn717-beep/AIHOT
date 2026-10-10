@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createServer } from "node:http";
+import { createServer, get } from "node:http";
 import { after, before, test } from "node:test";
 import * as cheerio from "cheerio";
 import { chromium, expect } from "@playwright/test";
@@ -26,6 +26,25 @@ const api = createServer((req, res) => {
 });
 before(async () => { web = await startWebServer(api); });
 after(() => web.stop());
+
+test("GA4 is installed once on the public domain and excluded from local development", async () => {
+  const local = cheerio.load(await (await fetch(web.origin)).text());
+  assert.equal(local("script[src*='googletagmanager.com/gtag/js']").length, 0);
+  // Node fetch replaces Host, so use the HTTP client to exercise the actual production authority.
+  const html = await new Promise<string>((resolve, reject) => {
+    get(web.origin, { headers: { host: "aihot.lol" } }, response => {
+      let body = "";
+      response.setEncoding("utf8");
+      response.on("data", chunk => body += chunk);
+      response.on("end", () => resolve(body));
+      response.on("error", reject);
+    }).on("error", reject);
+  });
+  const published = cheerio.load(html);
+  assert.equal(published("head script[src='https://www.googletagmanager.com/gtag/js?id=G-MHMRHTRMJ3']").length, 1);
+  assert.notEqual(published("head script[src*='googletagmanager.com/gtag/js']").attr("async"), undefined);
+  assert.equal(published("head script").filter((_, script) => (published(script).html() ?? "").includes("gtag('config', \"G-MHMRHTRMJ3\")")).length, 1);
+});
 
 test("the five primary sections include grouped news and topics, with closed future entries", async () => {
   const $ = cheerio.load(await (await fetch(web.origin)).text());

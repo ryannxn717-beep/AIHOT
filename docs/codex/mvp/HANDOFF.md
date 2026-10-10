@@ -2,6 +2,8 @@
 
 ## 当前状态
 
+2026-10-11 GA4更新：正式域名已安装用户提供的G-MHMRHTRMJ3，用户已确认更新后的隐私说明。仅公开正式域名加载一次标签，不在本地统计。最新Web版本ff0f08a3-3c31-4d67-bcb6-03de8c4ab4fa、API c0a6f717-f4fd-4e06-99c0-427911cf4a76；68项Web测试、类型/构建、37项线上smoke和完整Cloudflare检查通过。GA4后台到账尚未核验，详见PHASE_06_GA4.md。
+
 最新阶段优先读 PHASE_05_STATUS.md：用户已确认运营文案，https://aihot.lol已公开上线免费Workers＋Neon MVP。58迁移/5资讯/18候选源已在独立Neon初始化；API保持私有，Web唯一自定义域名aihot.lol，两个workers.dev均关闭。HTTPS、37公开smoke及数据库/搜索/反馈检查、Chrome客户端导航与390手机视口通过。公开Web版本b2d02af1-2a76-4791-8570-17a2988a2647。公开邮箱待补、自动采集/模型/日报未启用，30天内容规模目标尚未完成。下方是阶段历史，不能覆盖最新状态。独立工作区在/Users/mario/.codex/worktrees/cloudflare-mvp/AIHOT-lol。
 
 以下首版历史：域名aihot.lol（用户已购买）；展示品牌AI简报，运营名称AI hot。首版本地运行于http://localhost:3000，现已完成上述云端MVP上线；未启用持续自动化。

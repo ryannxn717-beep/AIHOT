@@ -32,14 +32,17 @@ export const links: Route.LinksFunction = () => [
 /** The release rendering this document: once a newer one is deployed, a render error reloads the page (entry.client). */
 export async function loader({ request }: Route.LoaderArgs) {
   const release = process.env.AIHOT_RELEASE ?? null;
+  const url = new URL(request.url);
+  const analyticsId = url.hostname === SITE.googleAnalytics.hostname && !/^\/admin(?:\/|$)/i.test(url.pathname)
+    ? SITE.googleAnalytics.measurementId : null;
   try {
     const meta = await apiGet<SiteMeta>("/api/site/meta", {
       headers: Object.assign({}, ...webModules().map((m) => m.root?.documentHeaders?.(request) ?? {})),
       signal: request.signal,
     });
-    return { ...meta, release };
+    return { ...meta, release, analyticsId };
   } catch {
-    return { changelogVersion: null, release };
+    return { changelogVersion: null, release, analyticsId };
   }
 }
 
@@ -52,6 +55,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
     <html lang={SITE.locale} suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
+        {site?.analyticsId && <>
+          <script async src={`https://www.googletagmanager.com/gtag/js?id=${site.analyticsId}`} />
+          <script dangerouslySetInnerHTML={{ __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', ${JSON.stringify(site.analyticsId)});` }} />
+        </>}
         {documentRelease && <meta name="aihot-release" content={documentRelease} />}
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf9f6" />

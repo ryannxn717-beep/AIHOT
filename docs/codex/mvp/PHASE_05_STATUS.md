@@ -2,6 +2,8 @@
 
 用户已批准 Workers＋Neon 免费路线；运营名称为 AI hot，邮箱稍后补充。展示品牌仍为 AI 简报。
 
+2026-10-11更新：用户提供GA4编号G-MHMRHTRMJ3，并明确同意相应隐私段落上线；标签与文案均已部署。最新Web版本ff0f08a3-3c31-4d67-bcb6-03de8c4ab4fa、API版本c0a6f717-f4fd-4e06-99c0-427911cf4a76。下方是首次上线记录；最新验证及GA4后台尚未核验的边界见PHASE_06_GA4.md。
+
 独立工作区：/Users/mario/.codex/worktrees/cloudflare-mvp/AIHOT-lol；分支 codex/cloudflare-mvp，基线9433b8467f6b932041927cc97ae7b178b5439cca。
 
 ## 已完成与证据

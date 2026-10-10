@@ -2,8 +2,8 @@
 
 | 项 | 值 |
 |---|---|
-| 版本 | 2026-10-10 |
-| 生效日期 | 2026-10-10 |
+| 版本 | 2026-10-11 |
+| 生效日期 | 2026-10-11 |
 | 运营名称 | AI hot |
 | 联系方式 | [站内反馈](/feedback)；[项目 Issues](https://github.com/ryannxn717-beep/AIHOT/issues) |
 
@@ -23,7 +23,9 @@
 
 ## 3. 托管服务
 
-网页与 API 使用 Cloudflare Workers，反馈与内容数据库使用 Neon。服务商会处理请求的网络信息及托管数据，以提供服务。本站未启用第三方访客分析、广告追踪或 Workers 请求日志存储；平台自身仍可能依其规则处理安全及运行信息，详见 [Cloudflare 隐私政策](https://www.cloudflare.com/privacypolicy/) 与 [Neon 隐私政策](https://neon.com/privacy-policy)。
+网页与 API 使用 Cloudflare Workers，反馈与内容数据库使用 Neon。服务商会处理请求的网络信息及托管数据，以提供服务。本站未启用广告追踪或 Workers 请求日志存储；平台自身仍可能依其规则处理安全及运行信息，详见 [Cloudflare 隐私政策](https://www.cloudflare.com/privacypolicy/) 与 [Neon 隐私政策](https://neon.com/privacy-policy)。
+
+本站使用 Google Analytics 4 分析访问量、页面浏览及设备/浏览器等使用信息，可能使用分析 Cookie，相关信息由 Google 处理。本站不主动将反馈正文、邮箱或密钥作为统计事件上传；详见 [Google 隐私政策](https://policies.google.com/privacy)。
 
 ## 4. 原文链接
 

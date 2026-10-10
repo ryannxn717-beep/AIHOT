@@ -46,6 +46,8 @@ export const SITE = {
   since: null as string | null,
   /** 界面语言（HTML lang、og:locale）。 */
   locale: "zh-CN",
+  /** Google 访问统计仅在正式域名的公开页面加载。 */
+  googleAnalytics: { measurementId: "G-MHMRHTRMJ3", hostname: "aihot.lol" },
   /** 默认域名，只在没设置 SITE_URL 时使用。 */
   defaultUrl: "http://localhost:3000",
   /** 标准图标（favicon.ico、icon.png、icon-192.png、apple-icon.png、logo.svg）以外也放在网站根目录的图标，site/brand/ 里的文件名（选填）；manifest.webmanifest 或外站引用了它们时用。 */
