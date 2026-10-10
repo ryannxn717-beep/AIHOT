@@ -18,6 +18,8 @@
 
 用户随后要求核心内容齐全后部署Cloudflare。已明确实际内容仍是5条样本、日报和自动采集未运行；已询问先上线MVP还是先补内容，以及已有服务器/托管PostgreSQL或每月预算，等待回答。2026-10-10浏览器入口需登录，但Wrangler旧OAuth已用官方CLI成功刷新，账户相符，无需再登录。官方API核验aihot.lol状态active，无本站Worker，Hyperdrive列表为空；订阅查询403，付费计划未知。未改DNS/创建收费资源。最新GitHub Check两个job均success（run 38012855913）。部署选项、持久化和费用条件见deploy/aihot.lol.md；上线范围和运行资源确定后继续，不能把Pages静态上传当完整部署。凭据使用官方auth命令在内存中供官方API请求，不打印或提交；CLI迁入系统钥匙串属已有登录的正常更新。
 
+用户已回答先上线MVP，数据库Neon可新建，并指定Chrome。Chrome browser1；Neon新项目已创建，tab1044399699为项目production分支（已markDeliverable），project cool-bread-04447408，branch br-cool-pond-b5nken3k，DB aibrief，PG17，AWS Ohio，Free plan。未读取连接秘密、迁移或导入数据。CF tab1044399702在Containers页，明确要求Workers付费计划；用户拒绝，要求先评估免费方式。已给出免费Workers+Neon（推荐但须移植兼容验证）与CF+RenderFree+Neon（Docker改动小但会休眠且休眠robots禁止抓取）两条路线，并询问选择，等待回复。没有业务代码修改、域名绑定或收费启用。下一步按选定路线制定轻量移植spec和实现/验证，不能声称目前已上线。详情见deploy/aihot.lol.md。
+
 ## 本机进程
 
 - Node：应用自带 `/Users/mario/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node`，版本24.19.0。
