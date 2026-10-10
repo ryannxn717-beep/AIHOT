@@ -47,6 +47,14 @@ export function CategoryTabs({ base, category, channel = "all", layoutId, classN
   return <PillTabs items={filterOptions(base, params, "全部").map(o => ({ ...o, prefetch: 'intent' as const }))} active={filterKey(category, channel)} layoutId={layoutId} label="筛选" className={className} />;
 }
 
+/** Both reading modes keep the reader's filters, but begin a fresh list without a search or page. */
+export function FeedScope({ base }: { base: "/" | "/all" }) {
+  const [params] = useSearchParams();
+  return <nav aria-label="资讯范围" className="mb-5 hidden items-center gap-5 border-b border-line lg:flex">
+    {([['/', '精选'], ['/all', '全部动态']] as const).map(([to, label]) => <Link key={to} to={hrefWith(to, params, { q: null, tab: null, search: null })} prefetch="intent" aria-current={base === to ? 'page' : undefined} className={`border-b-2 py-3 text-[13px] ${base === to ? 'border-accent font-semibold text-ink' : 'border-transparent text-ink-3 hover:text-ink'}`}>{label}</Link>)}
+  </nav>;
+}
+
 /**
  * The phone bar of 精选 and 全部: the brand, the 精选 | 全部 switch (a filter in use carries over), and
  * buttons for the filter sheet and search.

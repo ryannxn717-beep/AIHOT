@@ -11,7 +11,7 @@ import { pageMeta } from "../lib/seo";
 import { setFontPreference, useFontPreference, useStarred } from "../lib/local-state";
 import { Select } from "../components/ui/Controls";
 import { ThemeSwitch } from "../components/shell/ThemeSwitch";
-import { IconBookmark, IconChevronRight, IconGrid, IconHeart, IconMessage, IconMoon, IconPlug, IconSparkles } from "../components/icons";
+import { IconBookmark, IconChevronRight, IconDoc, IconGrid, IconHeart, IconMessage, IconMoon, IconPlug, IconSparkles } from "../components/icons";
 
 export const handle: Screen = { tab: "me", name: "我的" };
 
@@ -36,6 +36,7 @@ const agentWays = () => [...webModules().flatMap((m) => m.agentWays ?? []), "MCP
 const tools = (): Row[] => [
   ...webModules().flatMap((m) => m.tools ?? []),
   { to: "/topics", label: "主题", icon: <IconGrid size={20} /> },
+  { to: "/reports", label: "报告中心", icon: <IconDoc size={20} /> },
   { to: "/agent", label: "Agent 接入", icon: <IconPlug size={20} />, detail: agentWays().slice(0, 3).join(" · ") },
 ];
 

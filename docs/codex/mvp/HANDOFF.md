@@ -12,6 +12,8 @@
 
 已向用户询问运行平台及模型服务/每日预算，尚未收到回答；可以继续本地开发，生产部署与真实模型调用须等待相应事实和配置。法律模板中的运营主体/联系方式也需上线前填写。
 
+栏目合并阶段：资讯整合精选/全部/搜索，报告中心/reports整合日报/周报/月报入口，原地址保留；个人功能放在我的/更多。新报告页在modules/reading，通过原API公开发布层读取数据，缺数据或请求失败不会生成假内容；已接入pageReuse并通过手机离线返回回归。范围、剩余模型工具和大事记需求见SECTION_MAP.md，独立复审APPROVE。最新后端731项与Web62项通过，最终smoke覆盖报告中心和三种报告入口。
+
 ## 本机进程
 
 - Node：应用自带 `/Users/mario/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node`，版本24.19.0。

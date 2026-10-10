@@ -10,7 +10,7 @@ import { filterParams, hasFeedFilters, itemListLd, listPath, pageMeta, readFilte
 import type { Screen } from "../components/shell/screens";
 import { Timeline } from "../features/feed/Timeline";
 import { HotTopics } from "../features/feed/HotTopics";
-import { ActiveFilters, CategoryTabs, FeedBar, SearchField } from "../features/feed/Filters";
+import { ActiveFilters, CategoryTabs, FeedBar, FeedScope, SearchField } from "../features/feed/Filters";
 import { IntentLink } from "../components/ui/IntentLink";
 import { rememberPreview } from "../features/item/preview";
 
@@ -43,6 +43,7 @@ export default function Home() {
     <div className="brief-home pb-6">
       <FeedBar base="/" category={filters.category} channel={filters.channel} />
       <ActiveFilters base="/" category={filters.category} channel={filters.channel} tag={filters.tag} />
+      <FeedScope base="/" />
       <div className="brief-intro">
         <div><p className="brief-kicker">{SITE.subject} 资讯与进展</p><h1>读懂 AI 正在发生什么</h1><p className="brief-intro-note">从原始来源出发，读发布、看研究、跟进重要进展。</p></div>
         <Link to="/daily" className="brief-report-link">读一份 AI 日报 <span aria-hidden="true">↗</span></Link>
