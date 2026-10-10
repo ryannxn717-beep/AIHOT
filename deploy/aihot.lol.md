@@ -2,13 +2,13 @@
 
 ## 已完成
 
-2026-10-10最新进展：用户选择免费Workers＋Neon路线，独立Neon已初始化，Cloudflare API/Web已私有上传并验证。公开域名未绑定，等待用户确认实际条款与隐私文案。实现与命令见[Cloudflare适配](cloudflare/README.md)，完整证据/版本/下一步见[PHASE_05_STATUS](../docs/codex/mvp/PHASE_05_STATUS.md)。以下早期评估作为历史背景，不代表目前仍在选择托管平台。
+2026-10-10最新进展：用户确认条款与隐私文案后，免费Workers＋Neon MVP已公开上线https://aihot.lol。公开Web版本b2d02af1-2a76-4791-8570-17a2988a2647，API保持私有；HTTPS、37项公开smoke与搜索/反馈/手机视口验证通过。实现与命令见[Cloudflare适配](cloudflare/README.md)，完整证据/版本/下一步见[PHASE_05_STATUS](../docs/codex/mvp/PHASE_05_STATUS.md)。以下早期评估作为历史背景，不代表目前仍在选择托管平台。
 
 - 代码在用户仓库 https://github.com/ryannxn717-beep/AIHOT 。
 - 独立导航/首页、搜索/分类、详情/原文、主题分组、收藏及来源说明。AI 动态与主题有下拉入口，出海建站和 SEO 内容未开放。
 - 模型榜读取 LiveBench 核验快照，60 个配置、8 个维度；支持排序和搜索，尚未自动同步。
 - 保留上游 API、Worker、PostgreSQL 和统一发布层；默认全文关闭。
-- 用户提供的域名为aihot.lol。尚未改DNS或启动生产环境。
+- 用户提供的域名aihot.lol已通过Cloudflare自定义域名连接公开Web；运营名称AI hot，邮箱待补。
 
 来源统计缺失时，页面使用不带数量的说明；本项目已停用原ABOUT.sourcesFallback的猜测数量。上游docs/deploy.md中的历史升级记录保留，仅描述原框架历史。
 

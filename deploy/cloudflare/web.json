@@ -7,6 +7,7 @@
   "no_bundle": true,
   "workers_dev": false,
   "preview_urls": false,
+  "routes": [{ "pattern": "aihot.lol", "custom_domain": true }],
   "assets": { "directory": "assets", "binding": "ASSETS", "run_worker_first": true },
   "services": [{ "binding": "API", "service": "aihot-lol-api" }],
   "vars": { "NODE_ENV": "production", "API_BASE_URL": "https://api.internal", "SITE_URL": "https://aihot.lol" },

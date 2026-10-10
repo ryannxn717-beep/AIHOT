@@ -1,6 +1,6 @@
 # 免费阅读 MVP：Workers + Neon
 
-这套适配保留原 React Router 页面、公开 API 路由及 publication 查询。两个 Worker 分别负责 SSR/静态资源和 API；网页通过服务绑定发送 HTTP 请求，数据库与密钥只在 API。API 不对 workers.dev 或域名公开，只能由网页服务绑定调用。默认网页也没有公开路由，完成运营文案确认后才绑定域名。
+这套适配保留原 React Router 页面、公开 API 路由及 publication 查询。两个 Worker 分别负责 SSR/静态资源和 API；网页通过服务绑定发送 HTTP 请求，数据库与密钥只在 API。API 不对 workers.dev 或域名公开，只能由网页服务绑定调用。运营文案已获确认，web.json现配置唯一公开自定义域名aihot.lol；两个Worker的workers.dev均关闭。
 
 仅部署阅读、搜索、主题、模型榜、RSS/API/MCP 和文字反馈。Node 管理后台、常驻采集、模型任务、图片附件不作为当前云服务运行；原 Node/Docker 入口保持可用。品牌、主题以及当前公开文章的分享图/海报在 Node 构建时生成，内容修改或撤回后必须重新构建和部署；本次没有自动发布任务。
 
@@ -27,7 +27,7 @@ npm run test:cloudflare
 
 ## 验证与公开发布
 
-先部署 API（没有公开目标），再部署不带公开路由的网页。用官方 `wrangler dev --remote` 的签名预览验证 Cloudflare 实际运行与 Hyperdrive；本地代理 URL 只用于验证，不是公开站点网址。
+先部署 API（没有公开目标），再验证网页。首次私有验收时从生成的网页配置移除routes，保持workers_dev=false；用官方 `wrangler dev --remote` 的签名预览验证 Cloudflare 实际运行与 Hyperdrive。生成配置默认带有aihot.lol的公开域名，正常deploy会更新公开站点；本地代理 URL 仅用于验证。
 
 ```sh
 npx wrangler secret bulk .data/cloudflare-secrets.env -c .data/cloudflare-build/api/wrangler.json

@@ -2,9 +2,9 @@
 
 ## 当前状态
 
-最新阶段优先读 PHASE_05_STATUS.md：用户已批准免费Workers＋Neon，58迁移/5资讯/18候选源已在独立Neon初始化，两个Workers已私有上传并进行云端验证；域名公开绑定仍等待运营文案确认。下方阶段历史不能覆盖这条最新状态。独立工作区在/Users/mario/.codex/worktrees/cloudflare-mvp/AIHOT-lol，不要把原Node主页或签名私有预览称为已公开上线。
+最新阶段优先读 PHASE_05_STATUS.md：用户已确认运营文案，https://aihot.lol已公开上线免费Workers＋Neon MVP。58迁移/5资讯/18候选源已在独立Neon初始化；API保持私有，Web唯一自定义域名aihot.lol，两个workers.dev均关闭。HTTPS、37公开smoke及数据库/搜索/反馈检查、Chrome客户端导航与390手机视口通过。公开Web版本b2d02af1-2a76-4791-8570-17a2988a2647。公开邮箱待补、自动采集/模型/日报未启用，30天内容规模目标尚未完成。下方是阶段历史，不能覆盖最新状态。独立工作区在/Users/mario/.codex/worktrees/cloudflare-mvp/AIHOT-lol。
 
-域名：aihot.lol（用户已购买）。开发站名：AI 简报。首版运行于 http://localhost:3000 。没有更改域名 DNS，没有部署生产站，也没有启用持续自动化。
+以下首版历史：域名aihot.lol（用户已购买）；展示品牌AI简报，运营名称AI hot。首版本地运行于http://localhost:3000，现已完成上述云端MVP上线；未启用持续自动化。
 
 上游 commit：8ef28ebcd167b311ffab8c0308181e2912262ae2；开发分支 feat/ai-brief-mvp。前端使用顶部导航、重点阅读和独立侧栏；手机保留真实搜索/筛选入口和底部导航。其他页面沿用上游可运行实现。
 

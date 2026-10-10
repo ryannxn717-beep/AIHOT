@@ -209,6 +209,6 @@ AIHOT 曾经只是我无数个深夜里，一个很小、很小的念头。
 
 ## 本分支的免费 Cloudflare 阅读 MVP
 
-用户站点域名为 aihot.lol、展示品牌为 AI 简报。Workers＋Neon 适配和实际云端签名预览检查已完成，当前有5条核验资讯、60个模型榜配置；日报和自动采集仍未运行。API和网页尚无公开路由，公开域名绑定等待运营者确认隐私说明与使用规则。
+本站已上线 [aihot.lol](https://aihot.lol/)，展示品牌为 AI 简报，运营名称 AI hot。Workers＋Neon 免费 MVP 已通过37项公开访问检查及导航、搜索、文字反馈、手机视口验证。当前有5条核验资讯、60个模型榜配置；日报和自动采集仍未运行。API仅通过网页服务绑定访问；运营者已确认隐私说明与使用规则，公开邮箱稍后补充。
 
 部署命令及兼容性处理见 [Cloudflare部署](deploy/cloudflare/README.md)，当前证据和剩余步骤见 [部署状态](docs/codex/mvp/PHASE_05_STATUS.md)。原Node/Docker运行方式仍可用。
