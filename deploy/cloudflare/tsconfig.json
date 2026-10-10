@@ -1,0 +1,5 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": { "lib": ["ES2024", "DOM", "DOM.Iterable"], "types": ["node", "vite/client"], "jsx": "react-jsx", "paths": { "@aihot/web/*": ["../../apps/web/app/*"] } },
+  "include": ["*.ts", "tests/*.ts", "../../.data/cloudflare-types.d.ts", "../../scripts/initialize-neon-mvp.ts", "../../scripts/neon-target.ts", "../../scripts/reviewed-mvp-articles.ts"]
+}

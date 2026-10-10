@@ -2,26 +2,14 @@
 // internal Feishu chat and only its image key is stored (without that chat the file stays here). Abuse
 // control uses an unreadable source identifier (HMAC of client IP + UA family), per-source bans and a
 // per-minute limit.
-import { createHmac, randomUUID } from "node:crypto";
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
-import sharp from "sharp";
-import { config, credential } from "../config.ts";
+import { createHmac } from "node:crypto";
+import { credential } from "../config.ts";
+import { FeedbackRejected } from "./feedback-rejection.ts";
+export { FeedbackRejected } from "./feedback-rejection.ts";
+import { storeFeedbackScreenshot } from "./feedback-screenshots.ts";
 import { sql } from "../db.ts";
 import { serverModules } from "../modules.ts";
 import { feishuInternalEnabled, forwardFeedbackToFeishu } from "../notify/feishu.ts";
-
-export class FeedbackRejected extends Error {
-  readonly status: number;
-  readonly code: string;
-  readonly retryAfter?: number;
-  constructor(status: number, code: string, message: string, retryAfter?: number) {
-    super(message);
-    this.status = status;
-    this.code = code;
-    this.retryAfter = retryAfter;
-  }
-}
 
 /** The picture's real type from its first bytes (what the browser claimed is not trusted). */
 export function sniffImageType(data: Buffer): "image/png" | "image/jpeg" | "image/webp" | "image/gif" | null {
@@ -71,25 +59,7 @@ export async function submitFeedback(input: FeedbackInput): Promise<{ id: number
   if (banned) throw new FeedbackRejected(403, "forbidden", "暂时无法提交反馈。");
   rateLimit(source);
 
-  let screenshotKey: string | null = null;
-  if (input.screenshot) {
-    // Some phones send JPEGs as image/jpg or with no type at all: the bytes decide.
-    const mime = sniffImageType(input.screenshot.data);
-    if (!mime) throw new FeedbackRejected(400, "invalid_request", "截图需要是 PNG、JPG、WebP 或 GIF。");
-    if (input.screenshot.data.length > 8 * 1024 * 1024) throw new FeedbackRejected(400, "invalid_request", "截图最大 8MB。");
-    // The first bytes are not enough: a PNG signature followed by noise would be kept and offered to
-    // Feishu again and again. Decoding the whole picture settles it (a long phone capture fits the cap).
-    const decodes = await sharp(input.screenshot.data, { limitInputPixels: 60_000_000, failOn: "error" }).stats().then(() => true, () => false);
-    if (!decodes) throw new FeedbackRejected(400, "invalid_request", "截图无法识别，请换一张图片。");
-    // Stored locally until it is forwarded (notify/feishu.ts), for good where there is no internal chat;
-    // the database keeps only an identifier.
-    // Forwarding or erasing one feedback removes its file, even if another used the same picture.
-    const name = `${randomUUID()}.${mime.split("/")[1]}`;
-    const dir = path.join(config.dataDir, "feedback-screenshots");
-    await mkdir(dir, { recursive: true });
-    await writeFile(path.join(dir, name), input.screenshot.data);
-    screenshotKey = `local:${name}`;
-  }
+  const screenshotKey = input.screenshot ? await storeFeedbackScreenshot(input.screenshot) : null;
   const [row] = await sql<{ id: number }[]>`
     INSERT INTO feedback (content, email, page_url, screenshot_key, source_hash, forward_error)
     VALUES (${content}, ${email}, ${pageUrl}, ${screenshotKey}, ${source}, 'pending') RETURNING id`;

@@ -1,0 +1,25 @@
+import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+
+const base = process.argv[2] ?? "http://localhost:8787";
+const smoke = spawnSync(process.execPath, ["scripts/smoke.ts", "--base", base, "--public-only"], { stdio: "inherit" });
+assert.equal(smoke.status, 0, "public reading smoke must pass");
+for (const path of ["/admin/login", "/%61dmin/login", "/%41DMIN/login", "/%61dmin.data", "/api/%61dmin/sources", "/api/admin/sources", "/overseas", "/seo"]) assert.equal((await fetch(base + path)).status, 404, `${path} must stay closed`);
+assert.equal((await fetch(base + "/%zz")).status, 400);
+const batches = await Promise.all(Array.from({ length: 12 }, (_, n) => fetch(base + (n % 2 ? "/api/site/pool" : "/api/site/timeline")).then(async response => ({ status: response.status, body: await response.json() }))));
+assert(batches.every(result => result.status === 200), "overlapping DB requests must all complete");
+const searches = await Promise.all([1, 2].map(() => fetch(base + "/api/site/pool?q=AI")));
+assert(searches.every(response => response.status === 200), "ordinary concurrent searches must complete");
+const rankings = await (await fetch(base + "/api/site/model-rankings")).json() as { models: unknown[] };
+assert.equal(rankings.models.length, 60);
+const feedbackHtml = await (await fetch(base + "/feedback")).text();
+assert(!feedbackHtml.includes("添加一张问题截图"), "attachment UI must match server capability");
+const invalid = new FormData(); invalid.set("content", "x");
+assert.equal((await fetch(base + "/api/site/feedback", { method: "POST", body: invalid })).status, 400);
+const form = new FormData(); form.set("content", "部署验证：阅读 MVP 与文字反馈链路正常（无个人信息）。"); form.set("pageUrl", base + "/feedback");
+const submitted = await fetch(base + "/api/site/feedback", { method: "POST", body: form });
+assert.equal(submitted.status, 201);
+assert.equal(typeof ((await submitted.json()) as { id: unknown }).id, "number");
+const shot = new FormData(); shot.set("content", "部署验证附件边界"); shot.set("screenshot", new File(["not an image"], "test.png", { type: "image/png" }));
+assert.equal((await fetch(base + "/api/site/feedback", { method: "POST", body: shot })).status, 400);
+console.log("Cloudflare checks passed: public routes, concurrent SQL, 60 model rows, feedback and closed capabilities.");

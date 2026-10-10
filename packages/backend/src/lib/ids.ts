@@ -2,10 +2,10 @@ import { createHash, randomBytes, randomUUID } from "node:crypto";
 import { init } from "@paralleldrive/cuid2";
 
 // 25 lowercase alphanumerics starting with a letter (cuid2): matches ^[a-zA-Z0-9_-]{1,80}$.
-const cuid25 = init({ length: 25 });
+let cuid25: ReturnType<typeof init> | undefined;
 
 export function newArticleId(): string {
-  return cuid25();
+  return (cuid25 ??= init({ length: 25 }))();
 }
 
 export function newUuid(): string {

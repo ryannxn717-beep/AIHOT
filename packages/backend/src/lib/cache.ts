@@ -3,11 +3,35 @@
 // so no reader waits for a refresh. Past `maxStaleMs` (or before the first read) callers wait for the
 // read. Concurrent readers always share one read, made with the argument of the reader that starts it.
 
+import { AsyncLocalStorage } from "node:async_hooks";
+
+const requestCaches = new AsyncLocalStorage<Map<symbol, Cached<unknown, unknown>>>();
+
+/** workerd may reuse values, but pending I/O belongs exclusively to its originating request. */
+export function withRequestCache<T>(run: () => T): T {
+  return requestCaches.run(new Map(), run);
+}
+
 export interface Cached<T, A = void> {
   get(arg: A): Promise<T>;
 }
 
 export function cached<T, A = void>(load: (arg: A) => Promise<T>, opts: { freshMs: number; maxStaleMs: number }): Cached<T, A> {
+  const key = Symbol();
+  const shared = createCache(load, opts);
+  return { get(arg) {
+    const scope = requestCaches.getStore();
+    if (!scope) return shared.get(arg);
+    let entry = scope.get(key) as Cached<T, A> | undefined;
+    if (!entry) {
+      entry = createCache(load, opts);
+      scope.set(key, entry as Cached<unknown, unknown>);
+    }
+    return entry.get(arg);
+  } };
+}
+
+function createCache<T, A>(load: (arg: A) => Promise<T>, opts: { freshMs: number; maxStaleMs: number }): Cached<T, A> {
   let value: { at: number; data: T } | null = null;
   let pending: Promise<T> | null = null;
 
@@ -64,7 +88,7 @@ export function cachedByKey<K, T>(name: (key: K) => string, load: (key: K) => Pr
 export function sharedSearch<K, T>(name: (key: K) => string, load: (key: K, now: Date) => Promise<T>, isSearch: (key: K) => boolean): (key: K, now?: Date) => Promise<T> {
   const pending = new Map<string, Promise<T>>();
   return (key, now) => {
-    if (now || !isSearch(key)) return load(key, now ?? new Date());
+    if (now || !isSearch(key) || requestCaches.getStore()) return load(key, now ?? new Date());
     const id = name(key);
     let read = pending.get(id);
     if (!read) {

@@ -1,0 +1,14 @@
+{
+  "name": "aihot-lol-web",
+  "account_id": "be2a18345183b9d0835ff7c59884335a",
+  "main": "index.js",
+  "compatibility_date": "2026-10-10",
+  "compatibility_flags": ["nodejs_compat"],
+  "no_bundle": true,
+  "workers_dev": false,
+  "preview_urls": false,
+  "assets": { "directory": "assets", "binding": "ASSETS", "run_worker_first": true },
+  "services": [{ "binding": "API", "service": "aihot-lol-api" }],
+  "vars": { "NODE_ENV": "production", "API_BASE_URL": "https://api.internal", "SITE_URL": "https://aihot.lol" },
+  "observability": { "enabled": false }
+}

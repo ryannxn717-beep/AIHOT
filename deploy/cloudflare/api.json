@@ -1,0 +1,27 @@
+{
+  "name": "aihot-lol-api",
+  "account_id": "be2a18345183b9d0835ff7c59884335a",
+  "main": "index.js",
+  "compatibility_date": "2026-10-10",
+  "compatibility_flags": ["nodejs_compat"],
+  "no_bundle": true,
+  "find_additional_modules": true,
+  "workers_dev": false,
+  "preview_urls": false,
+  "rules": [
+    { "type": "Text", "globs": ["**/*.json", "**/*.md", "**/*.txt", "**/*.svg", "**/*.webmanifest"], "fallthrough": true },
+    { "type": "Data", "globs": ["**/*.png", "**/*.ico", "**/*.jpg", "**/*.webp"], "fallthrough": true }
+  ],
+  "hyperdrive": [{ "binding": "HYPERDRIVE", "id": "00000000000000000000000000000000" }],
+  "vars": {
+    "NODE_ENV": "production",
+    "SITE_URL": "https://aihot.lol",
+    "AIHOT_DATA_DIR": "/tmp/aihot",
+    "COLLECT_ENABLED": "false",
+    "MODEL_CALLS_ENABLED": "false",
+    "FEISHU_CONTENT_PUSH_ENABLED": "false",
+    "FEISHU_INTERNAL_ENABLED": "false",
+    "INDEXNOW_SUBMIT_ENABLED": "false"
+  },
+  "observability": { "enabled": false }
+}

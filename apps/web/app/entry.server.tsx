@@ -7,6 +7,7 @@ import { isbot } from "isbot";
 import { handleError } from "./lib/errors.server.ts";
 
 export { handleError };
+export { withApiFetch } from "./lib/api-fetch.server.ts";
 export const streamTimeout = 5_000;
 
 export default function handleRequest(request: Request, responseStatusCode: number, responseHeaders: Headers, routerContext: EntryContext): Response | Promise<Response> {

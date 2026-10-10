@@ -2,6 +2,8 @@
 
 ## 已完成
 
+2026-10-10最新进展：用户选择免费Workers＋Neon路线，独立Neon已初始化，Cloudflare API/Web已私有上传并验证。公开域名未绑定，等待用户确认实际条款与隐私文案。实现与命令见[Cloudflare适配](cloudflare/README.md)，完整证据/版本/下一步见[PHASE_05_STATUS](../docs/codex/mvp/PHASE_05_STATUS.md)。以下早期评估作为历史背景，不代表目前仍在选择托管平台。
+
 - 代码在用户仓库 https://github.com/ryannxn717-beep/AIHOT 。
 - 独立导航/首页、搜索/分类、详情/原文、主题分组、收藏及来源说明。AI 动态与主题有下拉入口，出海建站和 SEO 内容未开放。
 - 模型榜读取 LiveBench 核验快照，60 个配置、8 个维度；支持排序和搜索，尚未自动同步。

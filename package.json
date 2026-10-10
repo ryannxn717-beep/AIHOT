@@ -22,7 +22,11 @@
     "dev:web": "npm run dev -w @aihot/web",
     "typecheck": "tsc -p packages/contracts && tsc -p packages/backend && tsc -p apps/api && tsc -p apps/worker && tsc -p tests && tsc -p modules && npm run typecheck -w @aihot/web",
     "test": "node --test-global-setup=tests/databases.ts --import ./tests/databases.ts --test --test-concurrency=6 --test-timeout=120000 \"tests/*.test.ts\" \"modules/*/tests/*.test.ts\"",
-    "test:standalone": "node --import ./tests/standalone.ts --test --test-concurrency=6 --test-timeout=120000 \"tests/*.standalone.test.ts\" \"modules/*/tests/*.standalone.test.ts\""
+    "test:standalone": "node --import ./tests/standalone.ts --test --test-concurrency=6 --test-timeout=120000 \"tests/*.standalone.test.ts\" \"modules/*/tests/*.standalone.test.ts\"",
+    "build:cloudflare": "VITE_DEPLOY_TARGET=cloudflare npm run build -w @aihot/web && node deploy/cloudflare/build.ts",
+    "typecheck:cloudflare": "wrangler types .data/cloudflare-types.d.ts --strict-vars=false -c .data/cloudflare-build/api/wrangler.json && tsc -p deploy/cloudflare",
+    "test:cloudflare": "node --test deploy/cloudflare/tests/*.test.ts",
+    "check:cloudflare": "node deploy/cloudflare/check.ts"
   },
   "devDependencies": {
     "@modelcontextprotocol/client": "2.2.0",
@@ -30,7 +34,9 @@
     "@types/node": "26.6.3",
     "@types/sanitize-html": "2.16.1",
     "@types/turndown": "5.0.6",
+    "esbuild": "0.28.2",
     "opentype.js": "1.3.4",
-    "typescript": "7.0.2"
+    "typescript": "7.0.2",
+    "wrangler": "4.149.0"
   }
 }

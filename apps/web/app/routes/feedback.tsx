@@ -51,7 +51,8 @@ function writeDraft(d: Draft | null): boolean {
   return saved;
 }
 
-const TIPS = ["出问题的页面或文章链接", "你看到了什么，原本想做什么", "有截图更好，记得先遮盖敏感信息"];
+const SCREENSHOTS_ENABLED = import.meta.env.VITE_DEPLOY_TARGET !== "cloudflare";
+const TIPS = ["出问题的页面或文章链接", "你看到了什么，原本想做什么", SCREENSHOTS_ENABLED ? "有截图更好，记得先遮盖敏感信息" : "描述复现步骤，帮助我们定位问题"];
 
 function FeedbackAside() {
   return (
@@ -118,7 +119,7 @@ export default function FeedbackPage() {
   }, [shot]);
 
   const pick = (picked: File | null | undefined) => {
-    if (!picked) return;
+    if (!SCREENSHOTS_ENABLED || !picked) return;
     const type = screenshotType(picked);
     if (!/^image\/(png|jpeg|webp)$/.test(type)) return setState({ kind: "error", message: "截图需要是 PNG、JPEG 或 WebP。" });
     const file = type === picked.type ? picked : new File([picked], picked.name, { type });
@@ -234,7 +235,7 @@ export default function FeedbackPage() {
             <input id="fb-email" type="email" value={draft.email} onChange={(e) => setDraft({ ...draft, email: e.target.value })} placeholder={SITE.feedbackEmailHint} className={`${field} h-11 px-4 text-[14.5px]`} />
           </div>
 
-          <div>
+          {SCREENSHOTS_ENABLED && <div>
             <span className={label}>
               截图 <span className="font-normal text-ink-4">（选填）</span>
             </span>
@@ -265,7 +266,7 @@ export default function FeedbackPage() {
               </button>
             )}
             <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/webp" className="sr-only" onChange={(e) => pick(e.target.files?.[0])} />
-          </div>
+          </div>}
 
           <Presence show={state.kind === "error"} enter="anim-notice-in" exit="anim-fade-out" duration={160}>
             <p role="alert" className="rounded-tile bg-hot-soft px-3.5 py-2.5 text-[13px] text-hot">
@@ -276,7 +277,7 @@ export default function FeedbackPage() {
 
         <div className="flex flex-col-reverse gap-4 border-t border-line-soft bg-bg-sunk/50 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 dark:bg-bg-muted/30">
           <p className="text-[12px] leading-relaxed text-ink-4 sm:max-w-[400px]">
-            请勿提交密钥、身份证件或与问题无关的敏感信息。提交即表示你知悉反馈内容、选填邮箱、页面信息和截图将按
+            请勿提交密钥、身份证件或与问题无关的敏感信息。提交即表示你知悉反馈内容、选填邮箱、页面信息{SCREENSHOTS_ENABLED ? "和截图" : ""}将按
             <Link viewTransition to="/privacy" className="text-accent hover:underline">
               隐私说明
             </Link>
