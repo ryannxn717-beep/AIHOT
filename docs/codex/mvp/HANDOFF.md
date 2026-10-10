@@ -16,6 +16,8 @@
 
 最新导航阶段PHASE_04按用户新决定覆盖前述导航：主导航AI动态/主题下拉、模型榜、出海建站与SEO内容（后两项未开放）；更多保留关于/更新日志/反馈/收藏/报告/接入。模型榜/leaderboard读取LiveBench人工核验快照，60配置、8维成绩、单来源非实时，支持排序、搜索与展开；公开HTTP出口/api/site/model-rankings统一读取publication/rankings.ts。后端735、Web67、smoke38、types/build通过；独立复审APPROVE并逐项核对公开数据。更新快照流程见site/rankings/README.md。本轮没有部署，实际采集/模型开关仍false。
 
+用户随后要求核心内容齐全后部署Cloudflare。已明确实际内容仍是5条样本、日报和自动采集未运行；已询问先上线MVP还是先补内容，以及已有服务器/托管PostgreSQL或每月预算，等待回答。2026-10-10浏览器入口需登录，但Wrangler旧OAuth已用官方CLI成功刷新，账户相符，无需再登录。官方API核验aihot.lol状态active，无本站Worker，Hyperdrive列表为空；订阅查询403，付费计划未知。未改DNS/创建收费资源。最新GitHub Check两个job均success（run 38012855913）。部署选项、持久化和费用条件见deploy/aihot.lol.md；上线范围和运行资源确定后继续，不能把Pages静态上传当完整部署。凭据使用官方auth命令在内存中供官方API请求，不打印或提交；CLI迁入系统钥匙串属已有登录的正常更新。
+
 ## 本机进程
 
 - Node：应用自带 `/Users/mario/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node`，版本24.19.0。
