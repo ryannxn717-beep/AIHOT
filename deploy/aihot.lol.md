@@ -10,7 +10,7 @@
 
 来源统计缺失时，页面使用不带数量的说明；本项目已停用原ABOUT.sourcesFallback的猜测数量。上游docs/deploy.md中的历史升级记录保留，仅描述原框架历史。
 
-## 运行方案
+## 原框架运行基线
 
 沿用原项目Docker Compose：PostgreSQL17、一次性setup、API、Worker、Web，加Caddy管理HTTPS。已有域名可通过Cloudflare管理DNS，服务器需能运行这些进程和持久化数据库。
 
@@ -18,7 +18,7 @@
 
 ## Cloudflare 部署核验（2026-10-10）
 
-浏览器指定域名入口跳转Cloudflare登录页，但随后发现本机已有Wrangler OAuth登录，已通过官方CLI刷新并核验账户与用户给定账户相同，无需重新登录。最新CLI将OAuth凭据迁入系统钥匙串；只通过官方auth命令在内存中取得凭据用于官方API读取，不打印或存入项目。没有改DNS、购买服务或创建生产资源。
+浏览器指定域名入口跳转Cloudflare登录页，但随后发现本机已有Wrangler OAuth登录，已通过官方CLI刷新并核验账户与用户给定账户相同，无需重新登录。最新CLI将OAuth凭据迁入系统钥匙串；只通过官方auth命令在内存中取得凭据用于官方API读取，不打印或存入项目。没有改DNS、购买服务或创建Cloudflare生产资源；后来创建的独立Neon项目见下文。
 
 官方API只读核验：aihot.lol属于该账户且状态active；未发现本站对应Worker；Hyperdrive配置列表为空。最初订阅API因权限不足返回403；随后用用户指定Chrome查看Containers页，页面明确要求升级Workers付费计划。用户选择保持免费，不开通Containers。没有读取或复用其他项目的密钥。
 
@@ -31,7 +31,7 @@
 | 方案 | 最小改动与依赖 | 当前条件 |
 |---|---|---|
 | Cloudflare域名/CDN + 云服务器Docker（推荐保留上游引擎） | 原Docker Compose运行API、Worker、Web、PostgreSQL，Cloudflare管理DNS/HTTPS入口 | 需要可用服务器及用户授权的访问方式；目前未提供 |
-| Cloudflare Containers + 持久化PostgreSQL | 给现有镜像增加Cloudflare路由和进程编排，确认后台持续运行与停止行为，连接独立持久化数据库 | Workers付费计划因权限不足未知，费用预算及数据库连接未提供，部署适配未实现 |
+| Cloudflare Containers + 持久化PostgreSQL | 给现有镜像增加Cloudflare路由和进程编排，确认后台持续运行与停止行为，连接独立持久化数据库 | 已确认需要升级Workers付费计划，用户选择保持免费，因此不采用 |
 | Workers/Pages + D1重写 | 替换PostgreSQL查询、pg-boss队列、模型任务和文件处理 | 不是本次部署的最小方案，不自行重写 |
 
 依据：[Cloudflare Containers存储与生命周期](https://developers.cloudflare.com/containers/faq/)、[Containers计费](https://developers.cloudflare.com/containers/platform/pricing/)、[Workers全栈应用](https://developers.cloudflare.com/workers/static-assets/routing/full-stack-application/)。Containers默认磁盘会在休眠后丢失，不能把原PostgreSQL数据目录直接当持久化数据库；Containers属于Workers付费计划并按运行资源计费，不自动开通收费服务。
