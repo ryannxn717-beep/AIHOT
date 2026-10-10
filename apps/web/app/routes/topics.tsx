@@ -17,7 +17,10 @@ export { pageHeaders as headers } from "../lib/api.server";
 export const { clientLoader, shouldRevalidate } = pageReuse<typeof loader>();
 
 export async function loader({ request }: { request: Request }) {
-  return cachedPage(300, await apiGet<TopicsResponse>("/api/site/topics", { signal: request.signal }));
+  const data = await apiGet<TopicsResponse>("/api/site/topics", { signal: request.signal });
+  const group = new URL(request.url).searchParams.get("group");
+  if (group && !data.groups.some(item => item.key === group)) throw new Response(`未知主题分组：${group}`, { status: 400 });
+  return cachedPage(300, data);
 }
 
 export function meta({ loaderData, location }: Route.MetaArgs) {
@@ -32,7 +35,7 @@ export function meta({ loaderData, location }: Route.MetaArgs) {
     description: `按${by}${subjectAfter("追踪", "最新动态")}：${named ? `${named}等 ` : ""}${topics.length} 个主题，浏览最新精选与重要进展，持续更新。`,
     path: "/topics",
     image: "/og/pages/topics.png",
-    noindex: new URLSearchParams(location.search).get("scope") === "all",
+    noindex: new URLSearchParams(location.search).get("scope") === "all" || new URLSearchParams(location.search).has("group"),
     jsonLd: [
       {
         "@context": "https://schema.org",
@@ -95,8 +98,16 @@ export default function TopicsPage() {
   const { groups, topics } = useLoaderData<typeof loader>();
   const [params] = useSearchParams();
   const all = params.get("scope") === "all";
-  const populated = topics.filter(topic => topic.total > 0);
-  const shown = all ? topics : populated;
+  const group = params.get("group");
+  const inGroup = topics.filter(topic => !group || topic.group === group);
+  const populated = inGroup.filter(topic => topic.total > 0);
+  const shown = all ? inGroup : populated;
+  const scopeHref = (scope: boolean) => {
+    const query = new URLSearchParams();
+    if (group) query.set("group", group);
+    if (scope) query.set("scope", "all");
+    return `/topics${query.size ? `?${query}` : ""}`;
+  };
   return (
     <div className="pb-10">
       <PhoneBar back={{ to: "/more", label: "我的" }} title="主题" />
@@ -106,9 +117,13 @@ export default function TopicsPage() {
           {`按${groups.map((g) => g.name).join("、")}浏览 `}
           <span className="num">{populated.length}</span> 个有内容的主题，追踪最新精选与重要进展。
         </p>
-        <nav className="mt-5 flex gap-6 border-b border-line" aria-label="主题范围">
-          <Link to="/topics" aria-current={!all ? "page" : undefined} className={`border-b-2 py-3 text-[13px] ${!all ? "border-accent font-semibold text-ink" : "border-transparent text-ink-3"}`}>有内容的主题 <span className="num">{populated.length}</span></Link>
-          <Link to="/topics?scope=all" aria-current={all ? "page" : undefined} className={`border-b-2 py-3 text-[13px] ${all ? "border-accent font-semibold text-ink" : "border-transparent text-ink-3"}`}>全部主题 <span className="num">{topics.length}</span></Link>
+        <nav className="mt-5 flex flex-wrap gap-x-6 gap-y-3 text-[13px]" aria-label="主题分组">
+          <Link to={`/topics${all ? "?scope=all" : ""}`} aria-current={!group ? "page" : undefined} className={!group ? "font-semibold text-accent" : "text-ink-3"}>全部分组</Link>
+          {groups.map(item => <Link key={item.key} to={`/topics?group=${item.key}${all ? "&scope=all" : ""}`} aria-current={group === item.key ? "page" : undefined} className={group === item.key ? "font-semibold text-accent" : "text-ink-3"}>{item.key === "genre" ? "内容类型" : item.name}</Link>)}
+        </nav>
+        <nav className="mt-3 flex gap-6 border-b border-line" aria-label="主题范围">
+          <Link to={scopeHref(false)} aria-current={!all ? "page" : undefined} className={`border-b-2 py-3 text-[13px] ${!all ? "border-accent font-semibold text-ink" : "border-transparent text-ink-3"}`}>有内容的主题 <span className="num">{populated.length}</span></Link>
+          <Link to={scopeHref(true)} aria-current={all ? "page" : undefined} className={`border-b-2 py-3 text-[13px] ${all ? "border-accent font-semibold text-ink" : "border-transparent text-ink-3"}`}>全部主题 <span className="num">{inGroup.length}</span></Link>
         </nav>
       </header>
       {!shown.length && <div className="py-12"><h2 className="text-[18px] font-semibold text-ink">主题内容正在整理</h2><p className="mt-2 text-[14px] leading-relaxed text-ink-3">可以先浏览全部动态，或查看已经配置的主题方向。</p><Link to="/all" className="mt-4 inline-block text-[13px] text-accent">浏览全部动态 →</Link></div>}

@@ -20,6 +20,16 @@
 .brief-more { position: relative; color: var(--ink-3); font-size: 13px; }
 .brief-more summary { cursor: pointer; padding: 12px 0; }
 .brief-more-menu { position: absolute; top: 100%; right: 0; z-index: 50; width: 160px; padding: 6px 20px; border: 1px solid var(--line); background: var(--surface); box-shadow: 0 8px 24px #00000010; }
+.brief-primary-nav { display: flex; align-items: center; gap: 28px; }
+.brief-nav-group { position: relative; }
+.brief-nav-group summary { cursor: pointer; list-style: none; }
+.brief-nav-group summary::-webkit-details-marker { display: none; }
+.brief-nav-chevron { margin-left: 2px; color: var(--ink-4); }
+.brief-dropdown-menu { position: absolute; left: 0; top: 100%; z-index: 50; min-width: 170px; padding: 6px 18px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 8px 24px #00000010; }
+.brief-dropdown-menu .brief-nav-link { padding-block: 12px; }
+.brief-nav-unavailable { display: flex; align-items: center; gap: 6px; color: var(--ink-4); font-size: 13px; white-space: nowrap; }
+.brief-nav-unavailable > span:last-child { font-size: 10px; }
+.brief-masthead summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .brief-footer { border-top: 1px solid var(--line); padding: 22px 0 30px; justify-content: space-between; gap: 20px; color: var(--ink-3); font-size: 12px; }
 .brief-intro { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; padding: 12px 0 32px; }
 .brief-kicker { font-size: 12px; color: var(--accent); margin-bottom: 10px; }
@@ -65,6 +75,15 @@
   .brief-feed article:hover { box-shadow: none; transform: none; }
 }
 @media (max-width: 960px) {
+  .brief-masthead-inner { display: none; }
+  .brief-nav-inner { width: calc(100% - 32px); gap: 8px; align-items: flex-start; }
+  .brief-primary-nav { flex: 1; justify-content: space-between; gap: 8px; }
+  .brief-nav-link, .brief-nav-unavailable { font-size: 11px; }
+  .brief-primary-nav > .brief-nav-link > span:first-child { display: none; }
+  .brief-nav-unavailable { flex-direction: column; justify-content: center; gap: 0; padding-top: 10px; }
+  .brief-nav-unavailable > span:last-child { font-size: 9px; }
+  .brief-more { font-size: 11px; }
+  .brief-more summary { padding-block: 14px; }
   .brief-intro { padding: 24px 0; align-items: flex-start; }
   .brief-intro h1 { font-size: 25px; }
   .brief-intro-note { font-size: 13px; }

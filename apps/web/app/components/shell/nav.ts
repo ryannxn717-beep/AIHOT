@@ -14,17 +14,28 @@ export interface NavItem {
   end?: boolean;
   /** Shows the unread dot while the changelog has news. */
   changelog?: boolean;
+  children?: NavItem[];
+  disabled?: boolean;
 }
 
 const SECTIONS: Array<{ title: string; items: NavItem[] }> = [
   {
     title: "内容",
     items: [
-      { to: "/", label: "资讯", icon: IconBolt },
-      { to: "/hot", label: "热点", icon: IconFlame },
-      { to: "/topics", label: "主题", icon: IconGrid },
-      { to: "/reports", label: "报告", icon: IconDoc },
-      { to: "/agent", label: "订阅", icon: IconPlug },
+      { to: "/", label: "AI 动态", icon: IconBolt, children: [
+        { to: "/", label: "精选动态", icon: IconBolt, end: true },
+        { to: "/all", label: "全部资讯", icon: IconDoc },
+        { to: "/hot", label: "热点榜", icon: IconFlame },
+        { to: "/daily", label: "AI 日报", icon: IconDoc },
+      ] },
+      { to: "/topics", label: "主题", icon: IconGrid, children: [
+        { to: "/topics?group=company", label: "公司与模型", icon: IconGrid },
+        { to: "/topics?group=field", label: "技术方向", icon: IconGrid },
+        { to: "/topics?group=genre", label: "内容类型", icon: IconDoc },
+      ] },
+      { to: "/leaderboard", label: "模型榜", icon: IconGrid },
+      { to: "/overseas", label: "出海建站", icon: IconPlug, disabled: true },
+      { to: "/seo", label: "SEO 内容", icon: IconDoc, disabled: true },
     ],
   },
   {
@@ -32,6 +43,8 @@ const SECTIONS: Array<{ title: string; items: NavItem[] }> = [
     items: [
       { to: "/more", label: "我的", icon: IconUser },
       { to: "/starred", label: "收藏", icon: IconBookmark },
+      { to: "/reports", label: "报告中心", icon: IconDoc },
+      { to: "/agent", label: "订阅与接入", icon: IconPlug },
       { to: "/about", label: "关于", icon: IconHeart },
       { to: "/changelog", label: "更新日志", icon: IconHistory, changelog: true },
       { to: "/feedback", label: "反馈", icon: IconMessage },
@@ -58,12 +71,15 @@ export function sidebar(): Array<{ title: string; items: NavItem[] }> {
 
 /** Grouped reading entries cover their existing detail addresses. */
 export function sidebarIsActive(item: NavItem, pathname: string): boolean {
+  if (item.disabled) return false;
+  if (item.children && item.to === "/") return pathname === "/" || /^\/(all|hot|story|items|reports|daily|weekly|monthly)(\/|$)/.test(pathname);
+  if (item.end) return pathname === item.to;
   if (item.to === "/") return pathname === "/" || /^\/all(\/|$)/.test(pathname);
   if (item.to === "/reports") return /^\/(reports|daily|weekly|monthly)(\/|$)/.test(pathname);
   if (item.to === "/hot") return /^\/(hot|story)(\/|$)/.test(pathname);
-  if (item.end) return pathname === item.to;
   if (item.to === "/daily") return /^\/(daily|weekly|monthly)(\/|$)/.test(pathname);
-  return pathname === item.to || pathname.startsWith(`${item.to}/`);
+  const path = item.to.split("?")[0];
+  return pathname === path || pathname.startsWith(`${path}/`);
 }
 
 /**

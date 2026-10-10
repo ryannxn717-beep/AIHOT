@@ -14,6 +14,8 @@
 
 栏目合并阶段：资讯整合精选/全部/搜索，报告中心/reports整合日报/周报/月报入口，原地址保留；个人功能放在我的/更多。新报告页在modules/reading，通过原API公开发布层读取数据，缺数据或请求失败不会生成假内容；已接入pageReuse并通过手机离线返回回归。范围、剩余模型工具和大事记需求见SECTION_MAP.md，独立复审APPROVE。最新后端731项与Web62项通过，最终smoke覆盖报告中心和三种报告入口。
 
+最新导航阶段PHASE_04按用户新决定覆盖前述导航：主导航AI动态/主题下拉、模型榜、出海建站与SEO内容（后两项未开放）；更多保留关于/更新日志/反馈/收藏/报告/接入。模型榜/leaderboard读取LiveBench人工核验快照，60配置、8维成绩、单来源非实时，支持排序、搜索与展开；公开HTTP出口/api/site/model-rankings统一读取publication/rankings.ts。后端735、Web67、smoke38、types/build通过；独立复审APPROVE并逐项核对公开数据。更新快照流程见site/rankings/README.md。本轮没有部署，实际采集/模型开关仍false。
+
 ## 本机进程
 
 - Node：应用自带 `/Users/mario/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node`，版本24.19.0。

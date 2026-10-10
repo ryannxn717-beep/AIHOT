@@ -26,7 +26,7 @@ after(() => web.stop());
 
 test("primary navigation groups reading paths and keeps personal actions reachable", async () => {
   const $ = cheerio.load(await (await fetch(web.origin)).text());
-  assert.deepEqual($("[data-site-masthead] nav[aria-label='主导航'] a").map((_, a) => $(a).text().trim()).get(), ["资讯", "热点", "主题", "报告", "订阅"]);
+  assert.deepEqual($("[data-site-masthead] nav[aria-label='主导航'] > [data-nav-label]").map((_, a) => $(a).attr("data-nav-label")).get(), ["AI 动态", "主题", "模型榜", "出海建站", "SEO 内容"]);
   assert.equal($("[data-site-masthead] details a[href='/more']").length, 1);
   assert.equal($("[data-site-masthead] details a[href='/starred']").length, 1);
 });
@@ -46,7 +46,7 @@ test("desktop feed scope preserves topic filters and clears pagination and searc
   assert.equal(back.pathname, "/");
   assert.equal(back.searchParams.get("category"), "paper");
   for (const param of ["q", "tab", "page"]) assert.equal(back.searchParams.has(param), false);
-  assert.equal(all("[data-site-masthead] nav a[aria-current='page']").text().trim(), "资讯");
+  assert.match(all("[data-site-masthead] nav summary[aria-current='true']").text(), /AI 动态/);
 });
 
 test("report centre exposes published issues and each period without fabricating missing issues", async () => {
@@ -58,7 +58,7 @@ test("report centre exposes published issues and each period without fabricating
   assert.equal($("main a[href='/weekly/2026-W41']").length, 1);
   assert.equal($("main a[href='/monthly/2026-10']").length, 0);
   assert.ok($("main").text().includes("月报尚未发布"));
-  assert.equal($("[data-site-masthead] nav a[aria-current='page']").text().trim(), "报告");
+  assert.match($("[data-site-masthead] nav summary[aria-current='true']").text(), /AI 动态/);
 });
 
 test("an empty report centre links to reading and archives instead of promising automatic publication", async () => {

@@ -6,9 +6,10 @@ import { SITE } from "@aihot/site";
 const at = process.argv.indexOf("--base");
 const base = (at > 0 ? process.argv[at + 1] : process.env.SITE_URL) ?? "http://localhost:3000";
 
-const PAGES = ["/", "/all", "/hot", "/reports", "/daily", "/weekly", "/monthly", "/daily/archive", "/topics", "/starred", "/agent", "/about", "/changelog", "/feedback", "/terms", "/privacy", "/more", "/admin/login"];
+const PAGES = ["/", "/all", "/hot", "/reports", "/daily", "/weekly", "/monthly", "/daily/archive", "/topics", "/topics?group=company", "/topics?group=field", "/topics?group=genre", "/leaderboard", "/starred", "/agent", "/about", "/changelog", "/feedback", "/terms", "/privacy", "/more", "/admin/login"];
 const MACHINE: Array<[path: string, type: RegExp]> = [
   ["/api/health", /json/],
+  ["/api/site/model-rankings", /json/],
   ["/api/v1/items", /json/],
   ["/api/v1/hot-topics", /json/],
   ["/api/v1/selected/snapshot", /json/],
